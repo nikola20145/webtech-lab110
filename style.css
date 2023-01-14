@@ -1,0 +1,65 @@
+h1{
+  text-align: center;
+}
+
+table, th, td {
+    border: 1px solid black;
+  }
+
+table { background-color: grey; }
+
+.image1{
+width:200px;
+height:275px;
+}
+.image2{
+width:200px;
+height: 275px;
+}
+.image3{
+ width:200px;
+}
+.image4{
+width:200px;
+height:285px;
+}
+.image5{
+  width:200px;
+  height:285px;
+  vertical-align: top;
+}
+.image6{
+  width:200px;
+  height:285px;
+  vertical-align: top;
+}
+.image7{
+  width:200px;
+  height:285px;
+  vertical-align: top;
+}
+.image8{
+  width:200px;
+  height:285px;
+  vertical-align: top;
+}
+.imagecolumn {
+    
+    width: 25%;
+    padding: 5px;
+    display: inline-block;
+    margin: 20px;
+  }
+  
+  .imagerow::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  body {
+    background-color: lightblue;
+  }
+  
+  figure figcaption {
+      margin-left: 35px;
+  }
