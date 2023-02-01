@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A3 Documentation</title>
+    <style>
+        h2 {
+            font-style: italic;
+        }
+
+        body {
+            background-position: center;
+            background-size: cover;
+            background-color: #FAF9F6;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+
+        #Table th,
+        #Table td {
+            text-align: center;
+            padding: 8px;
+            border: 1px solid #000;
+        }
+
+        pre {
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+
+
+        caption {
+            font-size: 22px;
+            margin-top: 20px;
+        }
+
+        h1,
+        h2,
+        caption {
+            text-transform: capitalize;
+            text-align: center;
+        }
+
+        .Table {
+            width: 100%;
+            caption-side: top;
+            background-color: #8AAAE5;
+            border: 2px solid black;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid;
+        }
+    </style>
+</head>
+
+<h1>Documentation</h1>
+
+
+<body>
+
+    <div>
+        <pre>
+        <h2>
+        HTTP verb GET:
+        CRUD Read:
+        </h2>
+
+        Endpoint URI:  /api/authors - to read all authors or /api/authors/{id} to read a specific author
+        HTTP method: GET
+        Parameters: id (required) if we want a specific author
+        MIME format: json/application - means that the data being transferred between the client and the server is in a JSON format.
+        Example:    
+        Successful responses
+        200 OK
+        The request succeeded. The result meaning of "success" depends on the HTTP method:
+
+        GET: The resource has been fetched and transmitted in the message body. 
+
+                            <strong style= "font-size: 15px">Entire Collection (e.g. /authors)</strong>
+        
+        200 (OK), list of authors. Use pagination, sorting and filtering to navigate big lists.
+        Example URL request:
+        http://localhost:3000/api/authors
+        If the response is with 200 (OK) it will give all the information about all authors.
+        This is the output for the retrieving data.
+        [ 
+        { 
+            "id":"1", 
+            "author":"Nikola Tesla", 
+            "alt": "Image of Nikola Tesla", 
+            "tags": "genius, noble, inventor", 
+            "image":"https://nationaltoday.com/wp-content/uploads/2022/06/22-Nikola-Vesla-640x514.jpg",
+            "description": "He created the light bulb."
+        },
+        { 
+            "id":"2", 
+            "author":"Albert Einstein", 
+            "alt": "Image of Albert Einstein, 
+            "tags": "genius, inventor", 
+            "image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR514HXVtU9I5c4hChcxTYs7yLM3DtQcW8kQw&usqp=CAU",
+            "description": "He is one of the smartest people to walk the earth"
+        },
+        { 
+            "id":"3", 
+            "author":"Leo Tolstoy",
+            "alt": "Image of Leo Tolstoy", 
+            "tags": "russian, writer", 
+            "image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSc8t5t4BWUH_dvieCLF3Ot6kO99HdViKxuPg&usqp=CAU",
+            "description": "Leo Tolstoy is one of the best russian writers."
+        }         
+        ]
+
+        
+                        <strong style="font-size: 15px">Specific Item (e.g. /authors/{id})</strong>
+
+        200 (OK), single customer. 404 (Not Found), if ID not found or invalid.   
+        Example URL request:
+        http://localhost:3000/api/authors/4
+        If the response code is 200 (OK) then
+        this is the output for the retrieving data of the author with id 4.
+        {"id": "4", "author": "Nikola Tesla", "alt": "Image of Nikola Tesla", "tags": "genius, noble, inventor", 
+        "image":"https://nationaltoday.com/wp-content/uploads/2022/06/22-Nikola-Vesla-640x514.jpg", "Description": "He created the light bulb."
+        }   
+        Another URL request :  http://localhost:3000/api/authors/24
+        and if there doesn't exist an author with that id it will give a response code 404 and yield this output:
+        
+        {
+            "error": "ID of author not found"
+        }
+        
+        There is another case where there may be Internal Server Error, it will give a response code 500(Internal Server Error)
+        The output will be:
+        
+        {
+            error: 'Error retrieving author'
+        }
+
+        We also made it so if there is a bad URL request in any kind of form, for example :  http://localhost:3000/api/aut,  
+        that it would give a response code 404(Not found)
+        and the output will be:
+
+        {
+            "status": 404,
+            "success": false,
+            "error": "Invalid URL request"
+        }
+        </pre>
+
+    </div>
+
+    <table class="Table">
+        <caption style="font-size: 26px">Overview</caption>
+        <thead>
+            <tr>
+                <th>Response code: 200 </th>
+                <th>Response code: 404 </th>
+                <th>Response code: 500</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            <tr>
+                <td>In the GET request the response code 200(OK) is displayed if the request succeeded. This can be an
+                    example of a response for a successful request :
+
+                    {
+                    "id": "4",
+                    "author": "Nikola Tesla",
+                    "alt": "Image of Nikola Tesla",
+                    "tags": "genius, noble, inventor",
+                    "image":"https://nationaltoday.com/wp-content/uploads/2022/06/22-Nikola-Vesla-640x514.jpg",
+                    "Description": "He created the light bulb."
+                    }
+
+                </td>
+                <td>In the GET request the 404(Not found) response code can appear two times. One time it would be if
+                    the user sends a GET request for an author
+                    with non-existent ID. It will give a output:
+                    {
+                    "error": "ID of author not found"
+                    }. The other time it would give an 404 (Not found) response code is when the URL in the request is
+                    bad. The output will be :
+                    {
+                    "status": 404,
+                    "success": false,
+                    "error": "Invalid URL request"
+                    }.
+                </td>
+                <td>In the GET request the 500(Internal Server Error) response code will appear when there is some
+                    problem within the server.
+                    It will give a output:
+
+                    {
+                    error: 'Error retrieving author'
+                    }
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <div>
+        <pre>
+        <h2>
+        HTTP verb POST:
+        CRUD Create:
+        </h2>
+
+        Endpoint URI: /api/authors
+        HTTP method: POST
+        Parameters: none required
+        MIME format: json/application   - means that the data being transferred between the client and the server is in a JSON format.
+        
+
+                       
+        Example request URL : http://localhost:3000/api/authors
+        Example input in request body with a JSON input for creating a new author with response code 201 (Created)
+        { 
+            "author": "Jordan Peterson",
+            "alt": "Image of Jordan Peterson",
+            "tags": "intelligent, noble, philosopher",
+            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTECC8Ci3GxrdatoKCKUwSBwUoKzvvGYdSWIw&usqp=CAU",
+            "description": "The best philosopher of modern era who is trying to make the world a better place."
+        }
+        If succsesful the response would be :
+        {
+            "message": "Author created"
+        }
+        And if there is a invalid request with bad JSON input then it will give a response code 400 (Bad request).
+        One example is with more properties than needed in the JSON input like this:
+        { 
+            "author": "Jordan Peterson",
+            "alt": "Image of Jordan Peterson",
+            "tags": "intelligent, noble, philosopher",
+            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTECC8Ci3GxrdatoKCKUwSBwUoKzvvGYdSWIw&usqp=CAU",
+            "description": "The best philosopher of modern era who is trying to make the world a better place.",
+            "age": "60"
+        }
+        The response would be: 
+        {
+            "error": "Invalid request body, additional properties present"
+        }
+        
+        Again if there is a invalid request with bad JSON input then it will give a response code 400 (Bad request).
+        Another example is if in the input there are less properties than the original like this:
+        { 
+            "author": "Jordan Peterson",
+            "alt": "Image of Jordan Peterson",
+            "tags": "intelligent, noble, philosopher",
+            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTECC8Ci3GxrdatoKCKUwSBwUoKzvvGYdSWIw&usqp=CAU"
+        }
+
+        So, without property "descripition" it will give a response code 400(Bad request) and output like this: 
+        {
+            "error": "Invalid request body, missing required properties"
+        }
+
+        There is another case where there may be Internal Server Error, it will give a response code 500(Internal Server Error)
+        The output will be:
+        
+        {
+            error: 'Error retrieving author'
+        }
+
+        We also made it so if there is a bad URL request in any kind of form that it would give a response code 404(Not found)
+        and the output will be:
+
+        {
+            "status": 404,
+            "success": false,
+            "error": "Invalid URL request"
+        }
+        </pre>
+    </div>
+
+    <table class="Table">
+        <caption style="font-size: 26px">Overview</caption>
+        <thead>
+            <tr>
+                <th>Response code: 201 </th>
+                <th>Response code: 400 </th>
+                <th>Response code: 500</th>
+                <th>Response code: 400</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            <tr>
+                <td>In the POST request the response code 201(Created) is displayed if the request succeeded. This can
+                    be an
+                    example of a response output for a successful request :
+                    <pre>
+                {
+                        "message": "Author created with ID: ${id}"
+                }
+            </pre>
+                </td>
+                <td>In the POST request the 400(Bad Request) response code can appear two times. One time it would be if
+                    the user sends a POST request with JSON input that has more properties than the required. It will
+                    give a output:
+                    The response would be:
+                    {
+                    "error": "Invalid request body, additional properties present"
+                    }
+                    The other time it would give an 400 (Bad Request) response code is when the user sends a POST
+                    request
+                    with JSON input that has less properties than the required.
+                    The output will be :
+                    {
+                    "error": "Invalid request body, missing required properties"
+                    }
+                </td>
+                <td>In the POST request the 500(Internal Server Error) response code will appear when there is some
+                    problem within the server.
+                    It will give a output:
+
+                    {
+                    error: 'Error posting author'
+                    }
+                </td>
+                <td>
+                    The situation where it would give a 404 (Not found) response code is when the URL in the request is
+                    bad. The output will be :
+                    {
+                    "status": 404,
+                    "success": false,
+                    "error": "Invalid URL request"
+                    }.
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+
+
+    <div>
+        <pre>
+        <h2>
+        HTTP verb PUT:
+        CRUD Update:
+        </h2>
+
+        Endpoint URI: /api/authors/{id}
+        
+        HTTP method: PUT
+        Parameters: id (required) for a specific author.
+        MIME format: json/application - means that the data being transferred between the client and the server is in a JSON format.
+        Example:
+
+        200 OK
+        The request succeeded. The result meaning of "success" depends on the HTTP method:
+        PUT: The resource describing the result of the action is transmitted in the message body.
+
+        
+                       
+                        <strong style="font-size: 15px">Specific Item (e.g. /authors/{id})</strong>
+
+        Example URL request : https://localhost:3000/authors/4
+        Example input request in body with the json object :  
+        {
+            "author":"Albert Einstein", 
+            "alt": "Image of Albert Einstein, 
+            "tags": "genius, inventor", 
+            "image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR514HXVtU9I5c4hChcxTYs7yLM3DtQcW8kQw&usqp=CAU",
+            "description": "Albert Einstein was a famous physicist. His research spanned from quantum mechanics to theories about gravity and motion."
+        }
+        This will update the author with id = '4' if the response code is 200(OK) and the output will be:
+
+        {
+            "message": "Author updated"
+        }
+
+
+        However, if we have request in body:
+        https://localhost:3000/authors/25 and the author with that id is not found then it will just give an error 404 (Not Found) response code.
+        The output will be:
+
+        {
+            "error": "Author not found"
+        }
+        
+        Also if we have a request in body with JSON input like this :
+        {
+            "author":"Albert Einstein", 
+            "alt": "Image of Albert Einstein, 
+            "tags": "genius, inventor", 
+            "image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR514HXVtU9I5c4hChcxTYs7yLM3DtQcW8kQw&usqp=CAU"
+        }
+        So, with "description" property missing it will give response code 400(Bad request) and the output would be:
+
+        {
+            "error": "Error updating author. Invalid data."
+        }
+        Also if we have a request in body with JSON input like this :
+        
+        {
+            "author":"Albert Einstein", 
+            "alt": "Image of Albert Einstein, 
+            "tags": "genius, inventor", 
+            "image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR514HXVtU9I5c4hChcxTYs7yLM3DtQcW8kQw&usqp=CAU",
+            "description": "Albert Einstein was a famous physicist. His research spanned from quantum mechanics to theories about gravity and motion.",
+            "country": "The Netherlands"
+        }
+        So, will a bonus propery than the normal it will give response code 400(Bad request) and the output would be:
+
+        {
+            "error": "Invalid request body, additional properties present"
+        }
+
+        There is another case where there may be Internal Server Error, it will give a response code 500(Internal Server Error)
+        The output will be:
+        
+        {
+            error: 'Error retrieving author'
+        }
+        
+
+        We also made it so if there is a bad URL request in any kind of form that it would give a response code 404(Not found)
+        and the output will be:
+
+        {
+            "status": 404,
+            "success": false,
+            "error": "Invalid URL request"
+        }
+        </pre>
+    </div>
+
+
+    <table class="Table">
+        <caption style="font-size: 26px">Overview</caption>
+        <thead>
+            <tr>
+                <th>Response code: 200 </th>
+                <th>Response code: 400 </th>
+                <th>Response code: 500</th>
+                <th>Response code: 404</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            <tr>
+                <td>In the PUT request the response code 200(OK) is displayed if the request succeeded. This will be
+                    a response output for a successful request to update an author :
+                    <pre>
+                {
+                    "message": "Author updated"
+                }
+            </pre>
+                </td>
+                <td>In the PUT request the 400(Bad Request) response code can appear two times. One time it would be if
+                    the user sends a PUT request with JSON input that has more properties than the required.
+                    It will give a output:
+
+                    {
+                    "error": "Invalid request body, additional properties present"
+                    }
+
+                    The other time it would give an 400 (Bad Request) response code is when the user sends a PUT request
+                    with JSON input that has less properties than the required ones.
+                    The output will be :
+                    {
+                    "error": "Error updating author. Invalid data."
+                    }
+                </td>
+                <td>
+                    In the PUT request the 500(Internal Server Error) response code will appear when there is some
+                    problem within the server.
+                    It will give a output:
+
+                    {
+                    error: 'Error updating author'
+                    }
+                </td>
+                <td>
+                    There are two situations where it would give a 404 (Not found) response code. The first one would be
+                    when a user tries
+                    to update an author with non-existing id. It will give an output like this:
+
+                    {
+                    "error": "Author not found"
+                    }
+                    The second situation where it would give a 404(Not Found)
+                    is when the URL in the request is
+                    bad. The output will be :
+                    {
+                    "status": 404,
+                    "success": false,
+                    "error": "Invalid URL request"
+                    }.
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+
+
+    <div>
+        <pre>
+        <h2>
+        HTTP verb DELETE: 
+        CRUD Delete:
+        </h2>
+        
+
+        Endpoint URI: /api/authors/{id}
+        HTTP method: DELETE
+        Parameters: id (required) to delete a specific author
+
+                            <strong style="font-size: 15px">Specific Item (e.g. /authors/{id})</strong>
+
+        https://localhost:3000/authors/12 -  If there exists an author with id 12, this delete request deletes the author with id = '12' and has repsonse code of 204 (No content).
+        
+        For example:  https://localhost:3000/authors/54 this will lead to a error (response code 404 (Not Found)), because there doesn't exist an author with id 54.
+        Output will look like:
+
+        {
+            "error": "Author not found"
+        }
+
+        There is another case where there may be Internal Server Error, it will give a response code 500(Internal Server Error)
+        The output will be:
+        
+        {
+            error: 'Error retrieving author'
+        }
+        
+        We also made it so if there is a bad URL request in any kind of form that it would give a response code 404(Not found)
+        and the output will be:
+
+        {
+            "status": 404,
+            "success": false,
+            "error": "Invalid URL request"
+        }
+
+        </pre>
+    </div>
+
+
+    <table class="Table">
+        <caption style="font-size: 26px">Overview</caption>
+        <thead>
+            <tr>
+                <th>Response code: 204 </th>
+                <th>Response code: 500</th>
+                <th>Response code: 404</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            <tr>
+                <td>In the DELETE request the response code 204(No Content) is displayed if the request succeeded. This,
+                    However
+                    won't give any output (No content).
+                </td>
+                <td>
+                    In the DELETE request the 500(Internal Server Error) response code will appear when there is some
+                    problem within the server.
+                    It will give a output:
+
+                    {
+                    error: 'Error deleting author'
+                    }
+                </td>
+                <td>
+                    There are two situations where it would give a 404 (Not found) response code. The first one would be
+                    when a user tries
+                    to delete an author with non-existing id. It will give an output like this:
+
+                    {
+                    "error": "Author not found"
+                    }
+
+                    The second situation where it would give a 404(Not Found)
+                    is when the URL in the request is
+                    bad. The output will be :
+                    {
+                    "status": 404,
+                    "success": false,
+                    "error": "Invalid URL request"
+                    }.
+                </td>
+
+            </tr>
+        </tbody>
+
+
+    </table>
+
+
+    <h2>BONUS</h2>
+
+    <table class="Table">
+        <caption style="font-size: 26px">Overview</caption>
+        <thead>
+            <tr>
+                <th>Reset </th>
+                <th>Reset - response code 204(No Content)</th>
+                <th>Reset - response code 500(Internal Server Error)</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    For the bonus, we added a GET request that will work with reseting (deleting), all the authors
+                    that the user has created. This works correspondingly as for the assignment 2. The user cannot
+                    delete the first 13 authors
+                    because they are a part of the data base which the user cannot access.
+                </td>
+                <td>
+                    If the user sends a GET request with http://localhost:3000/api/reset as the URL and the response
+                    code is 204(No Content),
+                    that means that the user has successfully deleted the users that are added by the users.
+                </td>
+                <td>
+                    If the user sends a GET request with http://localhost:3000/api/reset as the URL and the response
+                    code is 500(Internal Server Error ),
+                    that means that the request for reseting was unsuccessful because of some Internal Server Error.
+                </td>
+        </tbody>
+
+
+    </table>
+
+</body>
+
+</html>
