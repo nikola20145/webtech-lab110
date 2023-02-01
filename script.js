@@ -19,7 +19,7 @@ var isFiltered = true;
 
 //Function to retrieve the data in the data server, and upload it into the HTML document.
 function getAuthorData() {
-    fetch("https://wt.ops.labs.vu.nl/api23/1f8b2c5d")
+    fetch("http://localhost:3000/api/authors")
         .then(response => response.json())
         .then(objectData => {
             tableBody.innerHTML = "";
@@ -98,7 +98,7 @@ function postAuthorName(authorNameArray) {
 
 //Function to reset all of the data in the table
 function resetData() {
-    fetch("https://wt.ops.labs.vu.nl/api23/1f8b2c5d/reset")
+    fetch("http://localhost:3000/api/reset")
         .then(() => {
             getAuthorData()
         }).catch(error => {
@@ -112,7 +112,7 @@ function updateAuthor(authorID) {
     const authorForm = new FormData(updateAuthorForm);
     const authorDataObj = Object.fromEntries(authorForm);
 
-    fetch("https://wt.ops.labs.vu.nl/api23/1f8b2c5d/item/" + authorID, {
+    fetch("http://localhost:3000/api/authors/" + authorID, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json"
@@ -159,7 +159,7 @@ function filterTable(event) {
         getAuthorData();
         lastAuthor = "";
     } else {
-        fetch("https://wt.ops.labs.vu.nl/api23/1f8b2c5d")
+        fetch("http://localhost:3000/api/authors/")
             .then(response => response.json())
             .then(objectData => {
                 for (let i = 0; i < objectData.length; i++) {
@@ -187,7 +187,7 @@ function transferAuthorData(event) {
     var tableRow = event.target.parentNode;
     var tableRowID = tableRow.id;
 
-    fetch("https://wt.ops.labs.vu.nl/api23/1f8b2c5d")
+    fetch("http://localhost:3000/api/authors/")
         .then(response => response.json())
         .then(objectData => {
 
@@ -252,13 +252,13 @@ authorInputForm.addEventListener("submit", event => {
     const authorFormData = new FormData(authorInputForm);
     const authorDataObject = Object.fromEntries(authorFormData);
 
-    fetch("https://wt.ops.labs.vu.nl/api23/1f8b2c5d", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(authorDataObject)
-        }).then(() => getAuthorData())
+    fetch("http://localhost:3000/api/authors", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(authorDataObject)
+    }).then(() => getAuthorData())
         .catch(error => {
             console.log(error);
         });
@@ -273,7 +273,7 @@ updateButton.addEventListener("click", event => {
 
     var authorID = document.getElementById("authorID").value;
 
-    fetch("https://wt.ops.labs.vu.nl/api23/1f8b2c5d")
+    fetch("http://localhost:3000/api/authors/")
         .then(response => response.json())
         .then(() => updateAuthor(authorID)).catch(error => {
             console.log(error);
